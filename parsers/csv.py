@@ -5,29 +5,30 @@ class CSVParser(SchemaReader):
     def __postinit__(self, **kwargs):
         self.translator = kwargs.get("translator", self.default_translator)
 
-    def parse(self, filename):
-        data = []
-        rows = self.read_rows(filename)
+    def parse(self, csv_file, **fmtparams):
+        rows = self.read_rows(csv_file, **fmtparams)
+        self.skip_header(rows)
+        return self.translate_rows(rows)
 
-        if self.schema.has_headers:
-            rows.next()
+    def read_rows(self, csv_file, **fmtparams):
+        return csv.reader(csv_file, **fmtparams)
 
-        for row in rows:
-            translated_row = []
+    def translate_rows(self, rows):
+        return [self.translate_row(row) for row in rows]
 
-            for column, value in enumerate(row):
-                translated_value = self.translate(column, value)
-                translated_row.append(translated_value)
+    def translate_row(self, row):
+        return [self.translate_value(column, value) for column, value in enumerate(row)]
 
-            data.append(translated_value)
-
-        return data
-
-    def read_rows(self, filename):
-        return csv.reader(open(filename))
-
-    def translate(self, column, value):
-        return self.translator.translate(column = column, value = value, format = self.field_formats(column))
+    def translate_value(self, column, value):
+        format = self.field_formats(column)
+        return self.translator.translate(column = column, value = value, format = format)
 
     def default_translator(self):
         return DataTranslator
+
+    def has_header(self):
+        return self.schema.has_header
+
+    def skip_header(self, rows):
+        if self.has_header():
+            rows.next()
