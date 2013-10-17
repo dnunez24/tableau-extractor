@@ -1,6 +1,6 @@
 class Schema:
     def __init__(self, schema):
-        self.has_headers = schema["has_headers"]
+        self.has_header = schema["has_header"]
         self.parse(schema["fields"])
 
     def parse(fields):
