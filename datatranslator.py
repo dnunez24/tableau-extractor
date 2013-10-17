@@ -7,9 +7,5 @@ class DataTranslator:
         value = kwargs["value"]
         format = kwargs.get("format")
 
-        try:
-            _class = getattr(datatypes, data_type + "Data")
-        except Exception, e:
-            raise e
-
+        _class = getattr(datatypes, data_type)
         return _class(column, value, format)
