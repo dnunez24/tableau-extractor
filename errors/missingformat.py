@@ -1,3 +1,3 @@
-from tableau import errors
+import tableau.errors
 
 class MissingFormatError(Error): pass
