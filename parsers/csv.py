@@ -1,7 +1,8 @@
-from tableau import schemareader
-from tableau import datatranslator
+import csv
+from tableau.schemareader import *
+from tableau.datatranslator import *
 
-class CSVParser(SchemaReader):
+class Parser(SchemaReader):
     def __postinit__(self, **kwargs):
         self.translator = kwargs.get("translator", self.default_translator)
 

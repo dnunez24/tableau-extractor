@@ -1,7 +1,7 @@
-from tableau import schemareader
+from schemareader import *
 from dataextract import *
 
-class DataExtractCreator(SchemaReader):
+class DataExtractor(SchemaReader):
     def create(self, source_data, output_file):
         extract = self.create_extract(output_file)
         table = self.add_table_to_extract(extract)

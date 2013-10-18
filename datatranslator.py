@@ -1,4 +1,4 @@
-import tableau.datatypes
+from tableau.datatypes import *
 
 class DataTranslator:
     @staticmethod
